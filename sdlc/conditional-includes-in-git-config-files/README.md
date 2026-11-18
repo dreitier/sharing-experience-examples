@@ -6,5 +6,5 @@ are excerpts: `# ...` or `// ...` marks the parts the article leaves out.
 
 ## Files
 
-- [`gitconfig`](gitconfig)
 - [`customerA/customer-git-config`](customerA/customer-git-config)
+- [`gitconfig`](gitconfig)
