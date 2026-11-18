@@ -1,0 +1,20 @@
+# From "AWS CloudFormation Cheatsheet": https://sharing-experience.com/en/knowledge-base/devops/platforms/amazon-web-services/cloudformation-cheatsheet
+# other-stack.yaml
+Parameters:
+  EnvironmentStackName:
+    Description: "Name of the stack containing VPC, subnets etc."
+    Type: String
+    Default: "environment"
+
+Resources:
+  MyCodeBuildProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      # ...
+      VpcConfig:
+        # ... VpcId, SecurityGroupIds
+        Subnets:
+          Fn::Split:
+            - ","
+            - Fn::ImportValue:
+                !Sub "${EnvironmentStackName}-AllSubnets"

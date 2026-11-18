@@ -1,0 +1,9 @@
+# From "AWS CloudFormation Cheatsheet": https://sharing-experience.com/en/knowledge-base/devops/platforms/amazon-web-services/cloudformation-cheatsheet
+Resources:
+  MyBuildProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: "my-project"
+      Environment:
+        # We need the PrivilegedMode, otherwise the Docker daemon would not be accessible to pull and push the images
+        PrivilegedMode: true

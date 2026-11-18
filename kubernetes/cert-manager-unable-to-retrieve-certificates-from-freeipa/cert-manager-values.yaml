@@ -1,0 +1,4 @@
+# From "cert-manager unable to retrieve certificates from FreeIPA": https://sharing-experience.com/en/knowledge-base/kubernetes/cert-manager-unable-to-retrieve-certificates-from-freeipa
+extraArgs:
+  - --dns01-recursive-nameservers-only
+  - --dns01-recursive-nameservers=$WINDOWS_SERVER_IP:53

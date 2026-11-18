@@ -1,0 +1,11 @@
+# From "AWS CodeBuild and CodePipeline with S3 source throws 'Error calling startBuild: Source version should be empty for S3 folder source location'": https://sharing-experience.com/en/knowledge-base/devops/platforms/amazon-web-services/codebuild-startbuild-source-version-should-be-empty-for-s3-folder-source-location
+  MyCodeBuild:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: "MyCodeBuild"
+      Artifacts:
+        Type: CODEPIPELINE
+      # ...
+      Source:
+        Type: CODEPIPELINE
+        BuildSpec: buildspec.yaml

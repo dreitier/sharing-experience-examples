@@ -1,0 +1,32 @@
+name: Lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: yamllint
+        run: |
+          pip install --quiet yamllint==1.38.0
+          yamllint --strict .
+
+      - name: shellcheck
+        # errors only: the scripts are copied from the articles, warnings would only flag their style
+        run: find . -name '*.sh' -not -path './.git/*' -print0 | xargs -0 shellcheck --severity=error --shell=bash
+
+      - name: kubeconform
+        # only complete Kubernetes manifests (top-level apiVersion and kind); excerpts can't be validated
+        run: |
+          curl -fsSLo kubeconform.tar.gz https://github.com/yannh/kubeconform/releases/download/v0.8.0/kubeconform-linux-amd64.tar.gz
+          echo "9bc2bffbf71f261128533edaf912153948b7ff238f9a531ae6d34466ec287883  kubeconform.tar.gz" | sha256sum --check
+          tar -xzf kubeconform.tar.gz kubeconform
+          grep -rlZ --include='*.yaml' --include='*.yml' -e '^apiVersion:' . | xargs -0 grep -lZ '^kind:' | xargs -0 --no-run-if-empty ./kubeconform -strict -summary

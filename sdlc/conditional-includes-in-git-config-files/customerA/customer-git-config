@@ -1,0 +1,4 @@
+# From "Conditional includes in .git/config files": https://sharing-experience.com/en/knowledge-base/sdlc/codebase/conditional-includes-in-git-config-files
+[http]
+sslKey = ~/.ssh/customerA/x509.key
+sslCert = ~/.ssh/customerA/x509.crt

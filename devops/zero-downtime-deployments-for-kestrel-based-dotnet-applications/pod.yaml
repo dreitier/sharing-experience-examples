@@ -1,0 +1,16 @@
+# From "Zero downtime deployments for Kestrel-based .NET applications": https://sharing-experience.com/en/knowledge-base/devops/continuous-deployment/zero-downtime-deployments-for-kestrel-based-dotnet-applications
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-dotnet-pod
+spec:
+  containers:
+    - name: dotnet-web
+      image: kestrel-based-app
+      ports:
+        - name: dotnet-web
+          containerPort: 80
+      lifecycle:
+        preStop:
+          exec:
+            command: ["sleep", "15"]

@@ -1,0 +1,13 @@
+# From "Exception "The request was canceled due to the configured HttpClient.Timeout of 100 seconds elapsing." for .NET applications running in AWS ECS": https://sharing-experience.com/en/knowledge-base/devops/platforms/amazon-web-services/dotnet-exception-the-request-was-cancelled-in-aws-ecs
+  YourEcsTaskDefinition:
+    Properties:
+      ContainerDefinitions:
+      - Name: proxy-test
+        Environment:
+        # ...
+        Image: '...'
+        LinuxParameters:
+          Capabilities:
+            Add:
+            # on Fargate, only SYS_PTRACE is possible.
+            - SYS_PTRACE

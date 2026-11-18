@@ -1,0 +1,12 @@
+{
+    "require": {
+        "livewire/livewire": "^2.10.4"
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+                "livewire/livewire"
+            ]
+        }
+    }
+}

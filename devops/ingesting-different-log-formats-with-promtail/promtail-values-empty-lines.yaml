@@ -1,0 +1,11 @@
+# From "Ingesting different log formats with Promtail": https://sharing-experience.com/en/knowledge-base/devops/logging/ingesting-different-log-formats-with-promtail
+pipelineStages:
+  - match:
+      selector: '{app="myapp"}'
+      stages:
+        # @see https://community.grafana.com/t/what-is-the-correct-way-to-parse-json-logs-in-loki-promtail/51974
+        - docker: {}
+        # @see https://github.com/grafana/loki/issues/3993
+        - replace:
+            expression: '(\n)'
+            replace: ""

@@ -1,0 +1,42 @@
+# From "AWS CloudFormation Cheatsheet": https://sharing-experience.com/en/knowledge-base/devops/platforms/amazon-web-services/cloudformation-cheatsheet
+Resources:
+  MyRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      ImageTagMutability: IMMUTABLE 
+      RepositoryName: "my-docker-image"
+
+  MyBuildProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      ServiceRole: !GetAtt [MyCodeBuildRole, Arn]
+
+  MyCodeBuildRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+      # ... codebuild.amazonaws.com
+      Policies:
+      - PolicyName: ecr-push
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Action:
+            - ecr:GetAuthorizationToken
+            Effect: Allow
+            Resource: '*'
+          # Allow CodeBuild to push to the ECR repository
+          - Action:
+            - ecr:GetDownloadUrlForLayer
+            - ecr:BatchGetImage
+            - ecr:CompleteLayerUpload
+            - ecr:DescribeImages
+            - ecr:DescribeRepositories
+            - ecr:UploadLayerPart
+            - ecr:ListImages
+            - ecr:InitiateLayerUpload
+            - ecr:BatchCheckLayerAvailability
+            - ecr:PutImage
+            Effect: Allow
+            # the repository ARN itself, without a trailing /*
+            Resource: !GetAtt [MyRepository, Arn]

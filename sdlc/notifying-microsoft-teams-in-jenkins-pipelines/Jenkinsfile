@@ -1,0 +1,58 @@
+// From "Notifying Microsoft Teams in Jenkins pipelines": https://sharing-experience.com/en/knowledge-base/sdlc/continuous-integration-delivery/notifying-microsoft-teams-in-jenkins-pipelines
+def myWebhookUrl = 'unconfigured'
+
+// inject credentials from Jenkins' credentials store.
+withCredentials([string(credentialsId: 'MICROSOFT_TEAMS_NOTIFICATION_WEBHOOK', variable: 'INJECTED_TOKEN')]) {
+    myWebhookUrl = INJECTED_TOKEN
+}
+
+pipeline {
+    agent any
+
+    options {
+        office365ConnectorWebhooks([[
+            startNotification: true,
+            // see below; this is basically a security issue. You should consider sending custom notifications for the build events instead of setting the build configuration options.
+            url: myWebhookUrl
+        ]])
+    }
+
+    stages {
+        stage('Send Microsoft Teams message') {
+            steps {
+                office365ConnectorSend webhookUrl: myWebhookUrl,
+                    message: 'Hello world',
+                    status: 'Info'
+            }
+        }
+        
+        stage('Send Microsoft Teams success message') {
+            steps {
+                office365ConnectorSend webhookUrl: myWebhookUrl,
+                    message: 'This is a success message',
+                    status: 'Success',            
+                    color: '#00ff00'
+            }
+        }
+        
+        stage('Send Microsoft Teams failure message') {
+            steps {
+                office365ConnectorSend webhookUrl: myWebhookUrl,
+                    message: 'This is a failure message',
+                    status: 'Failure',
+                    color: '#ff0000'
+            }
+        }
+
+        stage('Send Microsoft Teams message with facts') {
+            steps {
+                office365ConnectorSend webhookUrl: myWebhookUrl,
+                    // You can also send a message combined with facts
+                    // message: 'facts',
+                    // Facts and messages can be formatted with Markdown as described in https://docs.microsoft.com/en-us/microsoftteams/platform/task-modules-and-cards/cards/cards-format
+                    factDefinitions: [[name: "row1", template: "content of __row1__ [test](https://google.com)"],
+                    [name: "row2", template: "content of *row2*"]]            
+            }
+        }
+    }
+}

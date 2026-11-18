@@ -1,0 +1,10 @@
+# From "Your alerting is broken and nobody notices: A dead man's switch for Alertmanager": https://sharing-experience.com/en/knowledge-base/incident-readiness/dead-mans-switch-for-alertmanager
+groups:
+  - name: meta
+    rules:
+      - alert: Watchdog
+        expr: vector(1)
+        labels:
+          severity: none
+        annotations:
+          summary: Always firing. Ensures that the entire alerting pipeline is functional.

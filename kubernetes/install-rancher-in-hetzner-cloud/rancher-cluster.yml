@@ -1,0 +1,20 @@
+# From "Install Rancher 2.6 in Hetzner Cloud": https://sharing-experience.com/en/knowledge-base/kubernetes/rancher/install-rancher-in-hetzner-cloud
+nodes:
+  - address: 12.34.56.78
+    internal_address: 172.16.0.2
+    user: root
+    role: [controlplane, worker, etcd]
+    ssh_key_path: ~/path/to/key-file.rsa.key
+
+services:
+  etcd:
+    snapshot: true
+    creation: 6h
+    retention: 24h
+
+# Required for external TLS termination with
+# ingress-nginx v0.22+
+ingress:
+  provider: nginx
+  options:
+    use-forwarded-headers: "true"

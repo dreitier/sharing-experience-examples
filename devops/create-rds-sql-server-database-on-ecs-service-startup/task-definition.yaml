@@ -1,0 +1,34 @@
+# From "Automatically initialize a new database when using AWS RDS for Microsoft SQL Server and ECS": https://sharing-experience.com/en/knowledge-base/devops/platforms/amazon-web-services/create-rds-sql-server-database-on-ecs-service-startup
+  MyTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      ContainerDefinitions:
+      - Name: is-mssql-env-initialized
+        Essential: false
+        Environment:
+        - Name: DATABASE_HOST
+          Value: !Sub '${MssqlServerInstance.Endpoint.Address}'
+        # you probably want to pull the credentials through Secrets Manager/SSM (Secrets/ValueFrom) and rotate the master username and password
+        - Name: MASTER_USERNAME
+          Value: !Ref RdsMasterUsername
+        - Name: MASTER_PASSWORD
+          Value: !Ref RdsMasterPassword
+        - Name: DATABASE_USER
+          Value: !Ref RdsApplicationUsername
+        - Name: DATABASE_LOGIN
+          Value: !Ref RdsApplicationUsername
+        - Name: DATABASE_PASSWORD
+          Value: !Ref RdsApplicationPassword
+        - Name: DATABASE_NAME
+          Value: !Ref RdsApplicationDatabaseName
+        - Name: DATABASE_ROLES
+          Value: db_owner
+        # in a locked down environment, you might want to push the image to your account's ECR
+        Image: docker.io/dreitier/mssql-init-db-env:latest
+      - Name: application
+        DependsOn:
+        - ContainerName: is-mssql-env-initialized
+          # only start the application container if the MSSQL environment has been successfully initialized
+          Condition: SUCCESS
+        Environment:
+        # ...

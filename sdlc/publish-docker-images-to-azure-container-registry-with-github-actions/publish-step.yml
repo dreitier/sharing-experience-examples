@@ -1,0 +1,10 @@
+# From "Publish Docker images to Azure Container Registry (ACR) with GitHub Actions": https://sharing-experience.com/en/knowledge-base/sdlc/continuous-integration-delivery/publish-docker-images-to-azure-container-registry-with-github-actions
+  - name: Publish to Registry
+    id: publish_to_registry
+    uses: elgohr/Publish-Docker-Github-Action@main
+    with:
+      name: my-repository/my-artifact
+      username: ${{ secrets.ACR_USERNAME }}
+      password: ${{ secrets.ACR_PASSWORD }}
+      registry: ${{ secrets.ACR_HOST }}
+      snapshot: true

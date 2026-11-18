@@ -1,0 +1,10 @@
+# From "Error `ErrImagePull ... no basic auth credentials` when using AWS' Elastic Container Registry after upgrading your Rancher cluster to Kubernetes 1.27 or later": https://sharing-experience.com/en/knowledge-base/kubernetes/rancher/errimagepull-with-ecr-after-upgrade-to-kubernetes-1.27
+    kubelet:
+      extra_binds:
+        # mount recently created bin and configuration directory
+        - '/opt/aws/bin:/opt/aws/bin:ro'
+        - '/opt/aws/config:/opt/aws/config:ro'
+      extra_args:
+        # pass arguments to credential provider; extra_args is a map, not a list
+        image-credential-provider-config: '/opt/aws/config/custom-credential-providers.yaml'
+        image-credential-provider-bin-dir: '/opt/aws/bin'

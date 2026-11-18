@@ -1,0 +1,8 @@
+# The files are excerpts from articles: style rules would only flag the article's formatting,
+# so only real syntax problems fail the build.
+extends: relaxed
+rules:
+  line-length: disable
+  trailing-spaces: disable
+  indentation: disable
+  truthy: disable

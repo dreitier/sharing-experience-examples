@@ -1,0 +1,18 @@
+# From "AWS CloudFormation Cheatsheet": https://sharing-experience.com/en/knowledge-base/devops/platforms/amazon-web-services/cloudformation-cheatsheet
+Resources:
+  # region CodePipeline
+  CodePipelineRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+      # ....
+      Path: /
+      Policies:
+      - PolicyName: pass-role
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Action:
+            - iam:PassRole
+            Effect: Allow
+            Resource: '*'

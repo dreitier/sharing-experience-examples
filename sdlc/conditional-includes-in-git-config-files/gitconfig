@@ -1,0 +1,3 @@
+# From "Conditional includes in .git/config files": https://sharing-experience.com/en/knowledge-base/sdlc/codebase/conditional-includes-in-git-config-files
+[includeIf "gitdir:~/customerA/"]
+path = ~/customerA/customer-git-config

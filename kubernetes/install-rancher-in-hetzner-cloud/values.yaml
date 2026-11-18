@@ -1,0 +1,12 @@
+# From "Install Rancher 2.6 in Hetzner Cloud": https://sharing-experience.com/en/knowledge-base/kubernetes/rancher/install-rancher-in-hetzner-cloud
+# values.yaml
+
+ingress:
+  tls:
+    source: letsEncrypt
+
+letsEncrypt:
+  email: letsencrypt@domain.com
+
+hostname: rancher-admin.domain.com
+replicas: 1

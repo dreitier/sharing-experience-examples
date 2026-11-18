@@ -1,0 +1,10 @@
+# From "AWS CloudFormation Cheatsheet": https://sharing-experience.com/en/knowledge-base/devops/platforms/amazon-web-services/cloudformation-cheatsheet
+# environment-stack.yaml
+Resources:
+# ....
+Outputs:
+  FirstSubnet:
+    Description: First subnet
+    Value: !Select [0, [ !Ref SubnetA, !Ref SubnetB ]]
+    Export:
+        Name: !Sub "${AWS::StackName}-FirstSubnet"

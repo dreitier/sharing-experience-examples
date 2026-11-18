@@ -1,0 +1,29 @@
+# From "AWS CloudFormation Cheatsheet": https://sharing-experience.com/en/knowledge-base/devops/platforms/amazon-web-services/cloudformation-cheatsheet
+Resources:
+  MyLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      Role: !GetAtt [ MyLambdaRole, Arn ]
+
+  MyLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action:
+          - sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+      Policies:
+      - PolicyName: lambda-vpc-access
+        PolicyDocument:
+          Statement:
+          - Action:
+            - ec2:CreateNetworkInterface
+            - ec2:DeleteNetworkInterface
+            - ec2:DescribeNetworkInterfaces
+            Resource: '*'
+            Effect: Allow
+          Version: '2012-10-17'
