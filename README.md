@@ -48,7 +48,7 @@ Every push is checked with yamllint, shellcheck and kubeconform. That catches br
 
 Open an issue. If the fix also applies to the article, we update it there and the change shows up here with the next deploy.
 
-Need help with this in production? [dreitier](https://dreitier.com/en?mtm_campaign=sharing-experience&mtm_kwd=examples-repo) builds and runs platforms like these for clients.
+Need help with this in production? [dreitier](https://dreitier.com/en#mtm_campaign=sharing-experience&mtm_kwd=examples-repo) builds and runs platforms like these for clients.
 
 ## Licence
 
